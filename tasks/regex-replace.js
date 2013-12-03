@@ -94,9 +94,6 @@ module.exports = function(grunt) {
         onMatch(matches[i]);
       }
     }
-    index = typeof index === 'undefined' ? '' : index;
-    
-
  };
  
  var regexReplace = function(src, regex, substr, options, index, actionName){
