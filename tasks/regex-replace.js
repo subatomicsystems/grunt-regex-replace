@@ -40,8 +40,9 @@ module.exports = function(grunt) {
             if(typeof options === 'undefined'){
               options = GLOBAL;
             }
-            if( (typeof srchAction !== 'string' && toString.call(srchAction) !== regexString ) || (typeof rplAction !== 'string' && typeof rplAction !== 'function') || typeof options !== 'string' ){
-              grunt.warn('An error occured while processing (Invalid type passed for \'search\' or \'replace\' of \'flags\', only strings accepted.)' );
+            if( (typeof srchAction !== 'string' && toString.call(srchAction) !== regexString ) 
+              || typeof options !== 'string' ){
+              grunt.warn('An error occured while processing (Invalid type passed for \'search\' or \'replace\' or \'flags\', only strings accepted.)' );
             }
             if(typeof srchAction === 'string'){
               srchAction = grunt.template.process(srchAction);
@@ -75,7 +76,7 @@ module.exports = function(grunt) {
   // ==========================================================================
   // HELPERS
   // ==========================================================================
- var regexMatch = function(src, regex, onMatch, options, index, actionName) {
+ var regexMatch = function(src, regex, onMatch, options) {
 
    if(typeof onMatch !== 'function') {
     return;
@@ -88,15 +89,13 @@ module.exports = function(grunt) {
       regExp = regex; //regex => RegExp object
     }
     matches = String(src).match(regExp);
-    for(var match in matches) {
-      onMatch.call(match);
+    for(var i in matches) {
+      if(matches[i]!== null) {
+        onMatch(matches[i]);
+      }
     }
     index = typeof index === 'undefined' ? '' : index;
-    if(!actionName){
-      grunt.log.writeln(index + 1 + ' \'match\' action(s) completed.');
-    } else {
-      grunt.log.writeln(actionName + ' \'match\' action completed.');
-    }
+    
 
  };
  
